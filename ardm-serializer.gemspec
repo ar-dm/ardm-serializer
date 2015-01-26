@@ -2,14 +2,15 @@
 require File.expand_path('../lib/dm-serializer/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name             = "dm-serializer"
+  gem.name             = "ardm-serializer"
   gem.version          = DataMapper::Serializer::VERSION
 
-  gem.authors          = [ 'Guy van den Berg', 'Dan Kubb' ]
-  gem.email            = [ "dan.kubb@gmail.com" ]
-  gem.summary          = "DataMapper plugin for serializing Resources and Collections"
-  gem.description      = gem.summary
-  gem.homepage         = "http://datamapper.org"
+  gem.authors          = [ 'Martin Emde', 'Guy van den Berg', 'Dan Kubb' ]
+  gem.email            = [ 'me@martinemde.com', "dan.kubb@gmail.com" ]
+  gem.summary          = 'Ardm fork of dm-serializer'
+  gem.description      = "DataMapper plugin for serializing Resources and Collections"
+  gem.homepage         = "https://github.com/ar-dm/ardm-serializer"
+  gem.license          = 'MIT'
 
   gem.files            = `git ls-files`.split("\n")
   gem.test_files       = `git ls-files -- {spec}/*`.split("\n")

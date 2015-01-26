@@ -6,7 +6,7 @@ gemspec
 
 SOURCE         = ENV.fetch('SOURCE', :git).to_sym
 REPO_POSTFIX   = SOURCE == :path ? ''                                : '.git'
-DATAMAPPER     = SOURCE == :path ? Pathname(__FILE__).dirname.parent : 'http://github.com/datamapper'
+DATAMAPPER     = SOURCE == :path ? Pathname(__FILE__).dirname.parent : 'http://github.com/ar-dm'
 DM_VERSION     = '~> 1.2.0'
 DO_VERSION     = '~> 0.10.6'
 DM_DO_ADAPTERS = %w[ sqlite postgres mysql oracle sqlserver ]
@@ -17,18 +17,18 @@ gem 'multi_json', '~> 1.0'
 gem 'json',       '~> 1.6', :platforms => [ :ruby_18, :jruby ]
 gem 'json_pure',  '~> 1.6', :platforms => [ :mswin ]
 
-gem 'dm-core', DM_VERSION,
-  SOURCE  => "#{DATAMAPPER}/dm-core#{REPO_POSTFIX}",
+gem 'ardm-core', DM_VERSION,
+  SOURCE  => "#{DATAMAPPER}/ardm-core#{REPO_POSTFIX}",
   :branch => CURRENT_BRANCH
 
 group :development do
-  gem 'dm-validations', DM_VERSION,
-    SOURCE  => "#{DATAMAPPER}/dm-validations#{REPO_POSTFIX}",
+  gem 'ardm-validations', DM_VERSION,
+    SOURCE  => "#{DATAMAPPER}/ardm-validations#{REPO_POSTFIX}",
     :branch => CURRENT_BRANCH
 end
 
 group :testing do
-  gem 'nokogiri',    '~> 1.4'
+  gem 'nokogiri',    '~> 1.6'
   gem 'libxml-ruby', '~> 2.0', :platforms => [ :mri, :mswin ]
 end
 
@@ -70,7 +70,7 @@ group :datamapper do
   end
 
   plugins = ENV['PLUGINS'] || ENV['PLUGIN']
-  plugins = plugins.to_s.tr(',', ' ').split.push('dm-migrations').uniq
+  plugins = plugins.to_s.tr(',', ' ').split.push('ardm-migrations').uniq
 
   plugins.each do |plugin|
     gem plugin, DM_VERSION,
