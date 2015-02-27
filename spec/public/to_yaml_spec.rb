@@ -42,7 +42,7 @@ describe DataMapper::Serializer, '#to_yaml' do
       :breed     => 'Guernsey'
     )
     result = @harness.deserialize(YAML.dump(object))
-    result['name'].should == 'Berta'
+    expect(result['name']).to eq('Berta')
   end
 
   it 'should allow static YAML dumping of a collection' do
@@ -53,7 +53,7 @@ describe DataMapper::Serializer, '#to_yaml' do
       :breed     => 'Guernsey'
     )
     result = @harness.deserialize(YAML.dump(Cow.all))
-    result[0]['name'].should == 'Berta'
+    expect(result[0]['name']).to eq('Berta')
   end
 
 end

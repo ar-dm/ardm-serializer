@@ -43,15 +43,15 @@ describe DataMapper::Serializer, '#to_json' do
     betsy = deserialized_collection.first
     berta = deserialized_collection.last
 
-    betsy["id"].should be_nil
-    betsy["composite"].should == 2
-    betsy["name"].should be_nil
-    betsy["breed"].should be_nil
+    expect(betsy["id"]).to be_nil
+    expect(betsy["composite"]).to eq(2)
+    expect(betsy["name"]).to be_nil
+    expect(betsy["breed"]).to be_nil
 
-    berta["id"].should be_nil
-    berta["composite"].should == 20
-    berta["name"].should be_nil
-    berta["breed"].should be_nil
+    expect(berta["id"]).to be_nil
+    expect(berta["composite"]).to eq(20)
+    expect(berta["name"]).to be_nil
+    expect(berta["breed"]).to be_nil
   end
 
   it "supports :include option for one level depth"
@@ -62,7 +62,7 @@ describe DataMapper::Serializer, '#to_json' do
 
   it "can be serialized within a Hash" do
     hash = { 'cows' => Cow.all }
-    JSON.parse(hash.to_json).should == hash
+    expect(JSON.parse(hash.to_json)).to eq(hash)
   end
 
 end
@@ -73,6 +73,6 @@ describe DataMapper::Serializer, '#as_json' do
   end
 
   it "serializes Discriminator types as strings" do
-    Motorcycle.new.as_json[:type].should == "Motorcycle"
+    expect(Motorcycle.new.as_json[:type]).to eq("Motorcycle")
   end
 end

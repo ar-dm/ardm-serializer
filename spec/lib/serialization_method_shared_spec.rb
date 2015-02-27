@@ -21,8 +21,9 @@ RSpec.shared_examples_for 'A serialization method that also serializes core clas
       :breed     => 'Guernsey'
     )
     result = @harness.test(Cow.all.to_a)
-    result[0].values_at("id", "composite", "name", "breed").should ==
+    expect(result[0].values_at("id", "composite", "name", "breed")).to eq(
       [89, 34, "Berta", "Guernsey"]
+    )
   end
 
   it 'serializes an array of collections' do
@@ -38,8 +39,8 @@ RSpec.shared_examples_for 'A serialization method that also serializes core clas
     collection = DataMapper::Collection.new(query, query.model.load(resources, query))
 
     result = @harness.test(collection)
-    result[0].values_at(*keys).should == resources[0].values_at(*keys)
-    result[1].values_at(*keys).should == resources[1].values_at(*keys)
+    expect(result[0].values_at(*keys)).to eq(resources[0].values_at(*keys))
+    expect(result[1].values_at(*keys)).to eq(resources[1].values_at(*keys))
   end
 end
 
@@ -67,7 +68,7 @@ RSpec.shared_examples_for 'A serialization method' do
         :breed     => 'Guernsey'
       )
       result = @harness.test(Cow.first)
-      result.values_at("name", "breed").should == ["Berta", "Guernsey"]
+      expect(result.values_at("name", "breed")).to eq(["Berta", "Guernsey"])
     end
 
     it 'should serialize a resource' do
@@ -79,7 +80,7 @@ RSpec.shared_examples_for 'A serialization method' do
       )
 
       result = @harness.test(cow)
-      result.values_at("id", "composite", "name", "breed").should == [89,  34, 'Berta', 'Guernsey']
+      expect(result.values_at("id", "composite", "name", "breed")).to eq([89,  34, 'Berta', 'Guernsey'])
     end
 
     it 'should exclude nil properties' do
@@ -89,7 +90,7 @@ RSpec.shared_examples_for 'A serialization method' do
       )
 
       result = @harness.test(cow)
-      result.values_at("id", "composite").should == [89,  nil]
+      expect(result.values_at("id", "composite")).to eq([89,  nil])
     end
 
     it "should only includes properties given to :only option" do
@@ -100,7 +101,7 @@ RSpec.shared_examples_for 'A serialization method' do
         )
 
         result = @harness.test(planet, :only => [:name])
-        result.values_at("name", "aphelion").should == ["Mars", nil]
+        expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
     end
 
@@ -114,7 +115,7 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :methods => [:category, :has_known_form_of_life?])
         # XML currently can't serialize ? at the end of method names
         boolean_method_name = @harness.method_name == :to_xml ? "has_known_form_of_life" : "has_known_form_of_life?"
-        result.values_at("category", boolean_method_name).should == ["terrestrial", false]
+        expect(result.values_at("category", boolean_method_name)).to eq(["terrestrial", false])
       end
     end
 
@@ -126,7 +127,7 @@ RSpec.shared_examples_for 'A serialization method' do
         )
 
         result = @harness.test(planet, :methods => :category)
-        result.values_at("category").should == ["terrestrial"]
+        expect(result.values_at("category")).to eq(["terrestrial"])
       end
     end
 
@@ -138,7 +139,7 @@ RSpec.shared_examples_for 'A serialization method' do
         )
 
         result = @harness.test(planet, :only => [:name])
-        result.values_at("name", "aphelion").should == ["Mars", nil]
+        expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
     end
 
@@ -150,7 +151,7 @@ RSpec.shared_examples_for 'A serialization method' do
         )
 
         result = @harness.test(planet, :exclude => [:aphelion])
-        result.values_at("name", "aphelion").should == ["Mars", nil]
+        expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
     end
 
@@ -162,7 +163,7 @@ RSpec.shared_examples_for 'A serialization method' do
         )
 
         result = @harness.test(planet, :only => [:name], :exclude => [:name])
-        result.values_at("name", "aphelion").should == ["Mars", nil]
+        expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
     end
 
@@ -172,7 +173,7 @@ RSpec.shared_examples_for 'A serialization method' do
         planet = Planet.new(:name => "earth")
         planet.solar_system = solar_system
         result = @harness.test(planet, :methods => [:solar_system])
-        result['solar_system'].values_at('name', 'id').should == ['one', 1]
+        expect(result['solar_system'].values_at('name', 'id')).to eq(['one', 1])
       end
     end
   end
@@ -188,7 +189,7 @@ RSpec.shared_examples_for 'A serialization method' do
         :breed     => 'Guernsey'
       )
       result = @harness.test(Cow.all)
-      result[0].values_at("name", "breed").should == ["Berta", "Guernsey"]
+      expect(result[0].values_at("name", "breed")).to eq(["Berta", "Guernsey"])
     end
 
     it 'should serialize a collection' do
@@ -204,8 +205,8 @@ RSpec.shared_examples_for 'A serialization method' do
       collection = DataMapper::Collection.new(query, query.model.load(resources, query))
 
       result = @harness.test(collection)
-      result[0].values_at(*keys).should == resources[0].values_at(*keys)
-      result[1].values_at(*keys).should == resources[1].values_at(*keys)
+      expect(result[0].values_at(*keys)).to eq(resources[0].values_at(*keys))
+      expect(result[1].values_at(*keys)).to eq(resources[1].values_at(*keys))
     end
 
     it 'should serialize an empty collection' do
@@ -213,7 +214,7 @@ RSpec.shared_examples_for 'A serialization method' do
       collection = DataMapper::Collection.new(query)
 
       result = @harness.test(collection)
-      result.should be_empty
+      expect(result).to be_empty
     end
 
     it "serializes a one to many relationship" do
@@ -224,9 +225,9 @@ RSpec.shared_examples_for 'A serialization method' do
       baby.save
 
       result = @harness.test(parent.baby_cows)
-      result.should be_kind_of(Array)
+      expect(result).to be_kind_of(Array)
 
-      result[0].values_at(*%w{id composite name breed}).should == [2, 321, "Felix", "Angus"]
+      expect(result[0].values_at(*%w{id composite name breed})).to eq([2, 321, "Felix", "Angus"])
     end
 
     it "serializes a many to one relationship" do
@@ -237,22 +238,21 @@ RSpec.shared_examples_for 'A serialization method' do
       baby.save
 
       result = @harness.test(baby.mother_cow)
-      result.should be_kind_of(Hash)
-      result.values_at(*%w{id composite name breed}).should == [1, 322, "Harry", "Angus"]
+      expect(result).to be_kind_of(Hash)
+      expect(result.values_at(*%w{id composite name breed})).to eq([1, 322, "Harry", "Angus"])
     end
 
     it "serializes a many to many relationship" do
-      pending 'TODO: fix many to many in dm-core' do
-        p1 = Planet.create(:name => 'earth')
-        p2 = Planet.create(:name => 'mars')
+      pending 'TODO: fix many to many in dm-core'
+      p1 = Planet.create(:name => 'earth')
+      p2 = Planet.create(:name => 'mars')
 
-        FriendedPlanet.create(:planet => p1, :friend_planet => p2)
+      FriendedPlanet.create(:planet => p1, :friend_planet => p2)
 
-        result = @harness.test(p1.reload.friend_planets)
-        result.should be_kind_of(Array)
+      result = @harness.test(p1.reload.friend_planets)
+      expect(result).to be_kind_of(Array)
 
-        result[0]["name"].should == "mars"
-      end
+      expect(result[0]["name"]).to eq("mars")
     end
   end
 
@@ -272,8 +272,8 @@ RSpec.shared_examples_for 'A serialization method' do
         alternate_repo = DataMapper::Spec.spec_adapters[:alternate].name
         gerry = QuanTum::Cat.create(:name => "gerry")
         george = DataMapper.repository(alternate_repo){ QuanTum::Cat.create(:name => "george", :is_dead => false) }
-        @harness.test(gerry )['is_dead'].should be(nil)
-        @harness.test(george)['is_dead'].should be(false)
+        expect(@harness.test(gerry )['is_dead']).to be(nil)
+        expect(@harness.test(george)['is_dead']).to be(false)
       end
     end
 
@@ -282,9 +282,9 @@ RSpec.shared_examples_for 'A serialization method' do
   it 'should integrate with dm-validations' do
     planet = Planet.create(:name => 'a')
     results = @harness.test(planet.errors)
-    results.should == {
+    expect(results).to eq({
       "name"            => planet.errors[:name].map { |e| e.to_s },
       "solar_system_id" => planet.errors[:solar_system_id].map { |e| e.to_s }
-    }
+    })
   end
 end

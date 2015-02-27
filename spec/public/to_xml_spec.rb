@@ -61,20 +61,20 @@ require 'rexml/document'
     it "should not include the XML prologue, so that the result can be embedded in other XML documents" do
       planet = Planet.new
       xml = planet.to_xml(:element_name => "aplanet")
-      xml.should_not match(/\A<?xml/)
+      expect(xml).not_to match(/\A<?xml/)
     end
 
     describe ':element_name option for Resource' do
       it 'should be used as the root node name by #to_xml' do
         planet = Planet.new
         xml = planet.to_xml(:element_name => "aplanet")
-        REXML::Document.new(xml).elements[1].name.should == "aplanet"
+        expect(REXML::Document.new(xml).elements[1].name).to eq("aplanet")
       end
 
       it 'when not specified the class name underscored and with slashes replaced with dashes should be used as the root node name' do
         cat = QuanTum::Cat.new
         xml = cat.to_xml
-        REXML::Document.new(xml).elements[1].name.should == "quan_tum-cat"
+        expect(REXML::Document.new(xml).elements[1].name).to eq("quan_tum-cat")
       end
     end
 
@@ -87,7 +87,7 @@ require 'rexml/document'
 
       it 'when not specified the class name tableized and with slashes replaced with dashes should be used as the root node name' do
         xml = DataMapper::Collection.new(@query).to_xml
-        REXML::Document.new(xml).elements[1].name.should == "quan_tum-cats"
+        expect(REXML::Document.new(xml).elements[1].name).to eq("quan_tum-cats")
       end
 
       it 'should be used as the root node name by #to_xml' do
@@ -95,7 +95,7 @@ require 'rexml/document'
         @collection = DataMapper::Collection.new(@query, resources)
 
         xml = @collection.to_xml(:collection_element_name => "somanycats")
-        REXML::Document.new(xml).elements[1].name.should == "somanycats"
+        expect(REXML::Document.new(xml).elements[1].name).to eq("somanycats")
       end
 
       it 'should respect :element_name for collection elements' do
@@ -103,7 +103,7 @@ require 'rexml/document'
         @collection = DataMapper::Collection.new(@query, resources)
 
         xml = @collection.to_xml(:collection_element_name => "somanycats", :element_name => 'cat')
-        REXML::Document.new(xml).elements[1].elements[1].name.should == "cat"
+        expect(REXML::Document.new(xml).elements[1].elements[1].name).to eq("cat")
       end
     end
   end
