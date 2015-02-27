@@ -1,13 +1,16 @@
 require 'spec_helper'
 
 if defined?(::CSV)
-  describe DataMapper::Serialize, '#to_csv' do
+  RSpec.describe DataMapper::Serialize, '#to_csv' do
     #
     # ==== blah, it's CSV
     #
 
-    before(:all) do
+    before :all do
       DataMapper.finalize
+    end
+
+    before :each do
       query = DataMapper::Query.new(DataMapper::repository(:default), Cow)
 
       resources = [
@@ -47,7 +50,7 @@ if defined?(::CSV)
     with_alternate_adapter do
 
       describe "multiple repositories" do
-        before(:all) do
+        before :all do
           [ :default, :alternate ].each do |repository_name|
             DataMapper.repository(repository_name) do
               DataMapper.finalize

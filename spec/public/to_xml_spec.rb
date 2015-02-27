@@ -56,7 +56,7 @@ require 'rexml/document'
       }.new
     end
 
-    it_should_behave_like "A serialization method"
+    include_examples "A serialization method"
 
     it "should not include the XML prologue, so that the result can be embedded in other XML documents" do
       planet = Planet.new

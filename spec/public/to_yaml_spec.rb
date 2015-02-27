@@ -31,8 +31,8 @@ describe DataMapper::Serializer, '#to_yaml' do
     @to_yaml  = true
   end
 
-  it_should_behave_like 'A serialization method'
-  it_should_behave_like 'A serialization method that also serializes core classes'
+  include_examples 'A serialization method'
+  include_examples 'A serialization method that also serializes core classes'
 
   it 'should allow static YAML dumping' do
     object = Cow.create(

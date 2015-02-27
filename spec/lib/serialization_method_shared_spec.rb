@@ -1,7 +1,7 @@
-share_examples_for 'A serialization method that also serializes core classes' do
+RSpec.shared_examples_for 'A serialization method that also serializes core classes' do
   # This spec ensures that we don't break any serialization methods attached
   # to core classes, such as Array
-  before(:all) do
+  before :each do
     %w[ @harness ].each do |ivar|
       raise "+#{ivar}+ should be defined in before block" unless instance_variable_get(ivar)
     end
@@ -9,7 +9,7 @@ share_examples_for 'A serialization method that also serializes core classes' do
     DataMapper.auto_migrate!
   end
 
-  before(:each) do
+  before :each do
     DataMapper::Model.descendants.each { |model| model.destroy! }
   end
 
@@ -43,8 +43,8 @@ share_examples_for 'A serialization method that also serializes core classes' do
   end
 end
 
-share_examples_for 'A serialization method' do
-  before(:all) do
+RSpec.shared_examples_for 'A serialization method' do
+  before :each do
     %w[ @harness ].each do |ivar|
       raise "+#{ivar}+ should be defined in before block" unless instance_variable_get(ivar)
     end
@@ -52,7 +52,7 @@ share_examples_for 'A serialization method' do
     DataMapper.auto_migrate!
   end
 
-  before(:each) do
+  before :each do
     DataMapper::Model.descendants.each { |model| model.destroy! }
   end
 
@@ -259,7 +259,7 @@ share_examples_for 'A serialization method' do
   with_alternate_adapter do
 
     describe "(multiple repositories)" do
-      before(:all) do
+      before :each do
         [ :default, :alternate ].each do |repository_name|
           DataMapper.repository(repository_name) do
             QuanTum::Cat.auto_migrate!

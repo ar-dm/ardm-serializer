@@ -5,9 +5,12 @@ describe DataMapper::Serializer, '#to_json' do
   # ==== ajaxy JSON
   #
 
-  before(:all) do
+  before :all do
     DataMapper.finalize
     DataMapper.auto_migrate!
+  end
+
+  before :each do
     query = DataMapper::Query.new(DataMapper::repository(:default), Cow)
 
     keys = %w[ id composite name breed ]
@@ -32,8 +35,8 @@ describe DataMapper::Serializer, '#to_json' do
     end.new
   end
 
-  it_should_behave_like "A serialization method"
-  it_should_behave_like 'A serialization method that also serializes core classes'
+  include_examples "A serialization method"
+  include_examples 'A serialization method that also serializes core classes'
 
   it "handles options given to a collection properly" do
     deserialized_collection = JSON.parse(@collection.to_json(:only => [:composite]))
