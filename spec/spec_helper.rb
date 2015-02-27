@@ -1,12 +1,11 @@
 require 'dm-core/spec/setup'
 require 'dm-core/spec/lib/adapter_helpers'
-require 'dm-core/spec/lib/pending_helpers'
 
 require 'dm-validations' # FIXME: must be required before dm-serializer
 require 'dm-serializer'
 require 'dm-migrations'
 
-require File.expand_path('spec/lib/serialization_method_shared_spec')
+require File.expand_path('spec/lib/serialization_method_shared_examples')
 
 # require fixture resources
 SPEC_ROOT = Pathname(__FILE__).dirname.expand_path
@@ -22,5 +21,4 @@ DataMapper::Spec.setup
 
 RSpec.configure do |config|
   config.extend(DataMapper::Spec::Adapters::Helpers)
-  config.include(DataMapper::Spec::PendingHelpers)
 end

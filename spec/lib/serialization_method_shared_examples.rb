@@ -93,8 +93,12 @@ RSpec.shared_examples_for 'A serialization method' do
       expect(result.values_at("id", "composite")).to eq([89,  nil])
     end
 
-    it "should only includes properties given to :only option" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+    context "when supported" do
+      before do
+        skip 'Psych provides no way to pass in parameters' if @ruby_192 && @to_yaml
+      end
+
+      it "should only includes properties given to :only option" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -103,10 +107,8 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :only => [:name])
         expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
-    end
 
-    it "should serialize values returned by an array of methods given to :methods option" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it "should serialize values returned by an array of methods given to :methods option" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -117,10 +119,8 @@ RSpec.shared_examples_for 'A serialization method' do
         boolean_method_name = @harness.method_name == :to_xml ? "has_known_form_of_life" : "has_known_form_of_life?"
         expect(result.values_at("category", boolean_method_name)).to eq(["terrestrial", false])
       end
-    end
 
-    it "should serialize values returned by a single method given to :methods option" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it "should serialize values returned by a single method given to :methods option" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -129,10 +129,8 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :methods => :category)
         expect(result.values_at("category")).to eq(["terrestrial"])
       end
-    end
 
-    it "should only include properties given to :only option" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it "should only include properties given to :only option" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -141,10 +139,8 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :only => [:name])
         expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
-    end
 
-    it "should exclude properties given to :exclude option" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it "should exclude properties given to :exclude option" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -153,10 +149,8 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :exclude => [:aphelion])
         expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
-    end
 
-    it "should give higher precendence to :only option over :exclude" do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it "should give higher precendence to :only option over :exclude" do
         planet = Planet.new(
           :name     => "Mars",
           :aphelion => 249_209_300.4
@@ -165,10 +159,8 @@ RSpec.shared_examples_for 'A serialization method' do
         result = @harness.test(planet, :only => [:name], :exclude => [:name])
         expect(result.values_at("name", "aphelion")).to eq(["Mars", nil])
       end
-    end
 
-    it 'should support child associations included via the :methods parameter' do
-      pending_if 'Psych provides no way to pass in parameters', @ruby_192 && @to_yaml do
+      it 'should support child associations included via the :methods parameter' do
         solar_system = SolarSystem.create(:name => "one")
         planet = Planet.new(:name => "earth")
         planet.solar_system = solar_system
